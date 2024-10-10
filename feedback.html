@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://cdn1.iconfinder.com/data/icons/birthday-party-54/60/HBD__balloon__heart__party__celebration-1024.png" type="image/x-icon">
+    <title>Feedback untuk Nau</title>
+    <style>
+        /* CSS styles remain the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #c9d6ff;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .feedback-container {
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .star {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc; /* Warna bintang saat tidak aktif */
+        }
+
+        .star.selected {
+            color: #f39c12; /* Warna bintang saat aktif */
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            resize: none;
+        }
+
+        .submit-btn {
+            background-color: #512da8;
+            color: #fff;
+            font-size: 14px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background-color: #5c6bc0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="feedback-container">
+    <h2>Kasi Rating Lah Nau</h2>
+    <h2>(OPSIONAL)</h2>
+    
+    <div class="rating">
+        <span class="star" onclick="selectRating(1)">★</span>
+        <span class="star" onclick="selectRating(2)">★</span>
+        <span class="star" onclick="selectRating(3)">★</span>
+        <span class="star" onclick="selectRating(4)">★</span>
+        <span class="star" onclick="selectRating(5)">★</span>
+    </div>
+
+    <textarea id="comment" placeholder="Tinggalkan komentar..."></textarea>
+    
+    <button class="submit-btn" onclick="submitFeedback()">Kirim</button>
+</div>
+
+<script>
+    let rating = 0;
+
+    function selectRating(selectedRating) {
+        rating = selectedRating;
+        const stars = document.querySelectorAll('.star');
+        stars.forEach((star, index) => {
+            star.classList.toggle('selected', index < rating);
+        });
+    }
+
+    function submitFeedback() {
+        const comment = document.getElementById('comment').value;
+        if (rating > 0 || comment.trim() !== "") {
+            // Mengirim data ke server
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "send_feedback.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert(`Feedback berhasil dikirim!\nRating: ${rating}\nKomentar: ${comment}`);
+                    // Reset rating dan komentar
+                    rating = 0;
+                    document.getElementById('comment').value = '';
+                    const stars = document.querySelectorAll('.star');
+                    stars.forEach(star => star.classList.remove('selected'));
+                    // Kembali ke halaman index.html setelah 2 detik
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
+            };
+            xhr.send(`rating=${rating}&comment=${encodeURIComponent(comment)}`);
+        } else {
+            alert("Silakan berikan rating atau komentar.");
+        }
+    }
+</script>
+
+</body>
+</html>

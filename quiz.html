@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://cdn1.iconfinder.com/data/icons/birthday-party-54/60/HBD__balloon__heart__party__celebration-1024.png" type="image/x-icon">
+    <title>Halo Naura</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #c9d6ff;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            min-height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .quiz-container.active {
+            display: flex;
+        }
+
+        .quiz-container h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .quiz-options {
+            display: flex;
+            justify-content: space-between; /* Mengatur posisi tombol bersampingan */
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .quiz-options div {
+            background-color: #5c6bc0;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px;
+        }
+
+        .quiz-options div.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #result {
+            display: none;
+            font-size: 24px;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        #next-video-btn {
+            display: none;
+            background-color: #512da8;
+            color: #fff;
+            font-size: 14px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        #next-video-btn:hover {
+            background-color: #5c6bc0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="quiz1" class="quiz-container active">
+        <h2>Nau masih sayang kan?</h2>
+        <div class="quiz-options">
+            <div onclick="nextQuestion(1, true)">Iya</div>
+            <div class="enabled" onclick="moveButton(this)">Tidak</div>
+        </div>
+    </div>
+
+    <div id="quiz2" class="quiz-container">
+        <h2>Kangen abg gak Nau?</h2>
+        <div class="quiz-options">
+            <div onclick="nextQuestion(2, true)">Iya</div>
+            <div class="enabled" onclick="moveButton(this)">Tidak</div>
+        </div>
+    </div>
+
+    <div id="quiz3" class="quiz-container">
+        <h2>Nau mau cari pengganti abg gak?</h2>
+        <div class="quiz-options">
+            <div class="enabled" onclick="moveButton(this)">Iya</div>
+            <div onclick="nextQuestion(3, true)">Tidak</div>
+        </div>
+    </div>
+
+    <div id="quiz4" class="quiz-container">
+        <h2>Nau mau jalan jalan seharian sama abg di Batam nanti?</h2>
+        <div class="quiz-options">
+            <div onclick="nextQuestion(4, true)">Iya</div>
+            <div class="enabled" onclick="moveButton(this)">Tidak</div>
+        </div>
+    </div>
+
+    <div id="quiz5" class="quiz-container">
+        <h2>Nau udah siap buat spill ucapan ini di akun Ranauraw?</h2>
+        <div class="quiz-options">
+            <div onclick="nextQuestion(5, true)">Iya</div>
+            <div class="enabled" onclick="moveButton(this)">Tidak</div>
+        </div>
+    </div>
+
+    <div id="result">
+        Skor kamu: 100!
+    </div>
+
+    <button id="next-video-btn" onclick="window.location.href='video.html'">Lanjut ke video</button>
+</div>
+
+<script>
+    let currentQuiz = 1;
+
+    function nextQuestion(quizNumber, isCorrect) {
+        if (isCorrect) {
+            document.getElementById('quiz' + quizNumber).classList.remove('active');
+            if (quizNumber < 5) {
+                document.getElementById('quiz' + (quizNumber + 1)).classList.add('active');
+            } else {
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('next-video-btn').style.display = 'block';
+            }
+        }
+    }
+
+    function moveButton(button) {
+        // Menghasilkan nilai acak untuk posisi x dan y
+        const randomX = Math.floor(Math.random() * 200) - 100; // Acak antara -100 dan 100
+        const randomY = Math.floor(Math.random() * 200) - 100; // Acak antara -100 dan 100
+
+        // Mengubah posisi tombol berdasarkan nilai acak
+        button.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+</script>
+
+</body>
+</html>
